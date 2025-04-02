@@ -12,6 +12,8 @@ from emotion_video_classifier import emotion_testing
 import tkinter as tk
 from tkinter import messagebox
 
+#SPOTIFY API
+
 client_credentials_manager = SpotifyClientCredentials(client_id=config.cid, client_secret=config.secret)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
@@ -87,7 +89,7 @@ for i in album_uris:  # each album
     print("Album " + str(album_names[album_count]) + " songs has been added to spotify_albums dictionary")
     album_count += 1  # Updates album count once all tracks have been added
 
-
+# Feature extraction for clustering
 def audio_features(album):
     # Add new key-values to store audio features
     spotify_albums[album]['acousticness'] = []
@@ -172,7 +174,7 @@ name = data1['name']
 
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import MinMaxScaler
-
+# Features selection
 col_features = ['danceability', 'energy', 'valence', 'loudness']
 X = MinMaxScaler().fit_transform(data1[col_features])
 kmeans = KMeans(init="k-means++",
@@ -187,7 +189,7 @@ data2.pop('kmeans')
 df1 = cluster.apply(lambda x: x.sort_values(["popularity"], ascending=False))
 df1.reset_index(level=0, inplace=True)
 
-
+#formation of clusters
 def get_results(emotion_code):
     NUM_RECOMMEND = 10
     happy_set = []
